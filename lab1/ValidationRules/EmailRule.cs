@@ -19,7 +19,7 @@ namespace lab1.ValidationRules
             }
             else
                 return new ValidationResult(false, " Адрес электронной почты не задан! ");
-            if (email.Contains("@") && email.Contains("."))
+            if (value.ToString().Contains("@") && value.ToString().Contains("."))
             {
                 return new ValidationResult(true, null);
             }
