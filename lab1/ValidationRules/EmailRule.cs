@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
@@ -12,21 +13,19 @@ namespace lab1.ValidationRules
         public override ValidationResult Validate(object value,
        System.Globalization.CultureInfo cultureInfo)
         {
-            string email = string.Empty;
-            if (value != null)
-            {
-                email = value.ToString();
-            }
-            else
-                return new ValidationResult(false, " Адрес электронной почты не задан! ");
-            if (value.ToString().Contains("@") && value.ToString().Contains("."))
+            if(value == null)
+                return new ValidationResult(false, "Адрес электронной почты не задан! ");
+
+            string email = value.ToString();
+            Regex regex = new Regex("^\\S +@\\S +\\.\\S + $");
+            if (email.Contains("@") && email.Contains("."))
             {
                 return new ValidationResult(true, null);
             }
             else
             {
-                return new ValidationResult(false, 
-                    "Адрес электронной почты должен содержать символы @ и(.) точки \n Шаблон адреса: adress@mymail.com");
+                return new ValidationResult(false,
+                   "Адрес электронной почты должен содержать символы @ и(.) точки \n Шаблон адреса: adress@mymail.com");
             }
         }
     }

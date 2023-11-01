@@ -30,7 +30,7 @@ namespace lab1
             DataEntitiesSKLAD = new SKLAD_WPFEntities();
             ListOwner = new ObservableCollection<Owner>();
         }
-        bool isDirty = true;
+        public bool isDirty = true;
 
         private void GetOwners()
         {
@@ -42,7 +42,7 @@ namespace lab1
                 ListOwner.Add(own);
 
             }
-            //DataGridItem.Items.Clear();
+            DataGridItem.Items.Clear();
             DataGridItem.ItemsSource = ListOwner;
             foreach (var item in ListOwner)
             {
@@ -113,6 +113,10 @@ namespace lab1
             own.Phone = "не задано";
             own.Email = "не задано";
             own.Name = "не задано";
+            AddOwner(own);
+        }
+        public void AddOwner(Owner own)
+        {
             try
             {
                 DataEntitiesSKLAD.Owners.Add(own);
@@ -124,7 +128,6 @@ namespace lab1
                 throw new ApplicationException(
                 "Ошибка добавления данных" + ex.ToString());
             }
-
         }
 
         private void AddCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
