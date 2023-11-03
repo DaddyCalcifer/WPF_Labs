@@ -33,8 +33,9 @@ namespace lab1
         public bool isDirty = true;
         public static bool canSave = true;
 
-        private void GetOwners()
+        public void GetOwners()
         {
+            ListOwner.Clear();
             var queryOwners = (from owner in DataEntitiesSKLAD.Owners
                                orderby owner.Name
                                select owner).ToList();
@@ -43,7 +44,6 @@ namespace lab1
                 ListOwner.Add(own);
 
             }
-            DataGridItem.Items.Clear();
             DataGridItem.ItemsSource = ListOwner;
             foreach (var item in ListOwner)
             {
@@ -59,7 +59,6 @@ namespace lab1
 
         private void UndoCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            //MessageBox.Show("Отмена");
             RewriteOwner();
             DataGridItem.IsReadOnly = true;
             isDirty = true;
@@ -96,10 +95,42 @@ namespace lab1
             e.CanExecute = isDirty;
 
         }
+        public FIndWindow fw;
         private void FindCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBox.Show("Поиск");
+            if (fw == null)
+            {
+                fw = new FIndWindow(this);
+                fw.Show();
+            }
             isDirty = true;
+        }
+        public void FindByName(string name, string phone, string email)
+        {
+            DataEntitiesSKLAD = new SKLAD_WPFEntities();
+            ListOwner.Clear();
+            var queryOwner = (from owner in DataEntitiesSKLAD.Owners
+                              where owner.Name.Contains(name)
+                              where owner.Phone.Contains(phone)
+                              where owner.Email.Contains(email)
+                                select owner).ToList();
+            foreach (Owner ow in queryOwner)
+            {
+                ListOwner.Add(ow);
+            }
+            if (ListOwner.Count > 0)
+            {
+                DataGridItem.ItemsSource = ListOwner;
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Владельцы с заданным фильтром не найдены!",
+                    "Внимание!",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                GetOwners();
+            }
         }
 
         private void FindCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
