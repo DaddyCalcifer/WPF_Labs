@@ -31,6 +31,7 @@ namespace lab1
             ListOwner = new ObservableCollection<Owner>();
         }
         public bool isDirty = true;
+        public static bool canSave = true;
 
         private void GetOwners()
         {
@@ -74,13 +75,13 @@ namespace lab1
             MessageBox.Show("Сохранено");
             DataEntitiesSKLAD.SaveChanges();
 
-            isDirty = true;
+            canSave = true;
             DataGridItem.IsReadOnly = true;
         }
 
         private void SaveCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = isDirty;
+            e.CanExecute = canSave;
 
         }
         private void EditCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)

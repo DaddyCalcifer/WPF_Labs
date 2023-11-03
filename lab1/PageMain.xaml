@@ -99,11 +99,13 @@ Path=(Validation.Errors)[0].ErrorContent}"/>
                     </Grid>
                 </ControlTemplate>
             </DataGrid.RowValidationErrorTemplate>
+            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя"
                     Binding="{Binding Name, Mode=TwoWay, ValidatesOnExceptions=True,
                     UpdateSourceTrigger=PropertyChanged}">
                 </DataGridTextColumn>
+                
                 <DataGridTextColumn Header="E-mail" EditingElementStyle="{StaticResource errorStyle}">
                     <DataGridTextColumn.Binding >
                         <Binding Path="Email" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions ="True" >
@@ -114,9 +116,14 @@ Path=(Validation.Errors)[0].ErrorContent}"/>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
 
-                <DataGridTextColumn Header="Телефон"
-                    Binding="{Binding Phone, Mode=TwoWay,
-                    UpdateSourceTrigger=PropertyChanged}">
+                <DataGridTextColumn Header="Телефон" EditingElementStyle="{StaticResource errorStyle}">
+                    <DataGridTextColumn.Binding >
+                        <Binding Path="Phone" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions ="True" >
+                            <Binding.ValidationRules>
+                                <rule:PhoneRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>

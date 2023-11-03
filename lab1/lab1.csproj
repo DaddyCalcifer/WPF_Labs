@@ -212,6 +212,7 @@
       <DependentUpon>SKLAD.tt</DependentUpon>
     </Compile>
     <Compile Include="ValidationRules\EmailRule.cs" />
+    <Compile Include="ValidationRules\PhoneRule.cs" />
     <Page Include="AddOrEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
