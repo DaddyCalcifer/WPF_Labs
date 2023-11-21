@@ -7,23 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace lab1
+namespace lab1.Model
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Specific
+    public partial class Account
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Specific()
-        {
-            this.Items = new HashSet<Item>();
-        }
-    
-        public int ID_Specific { get; set; }
+        public int ID_Account { get; set; }
+        public string Login { get; set; }
         public string Name { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Item> Items { get; set; }
+        public string Email { get; set; }
+        public int TypeID { get; set; }
+        public string Password { get; set; }
+        public Nullable<int> ID_Owner { get; set; }
     }
 }

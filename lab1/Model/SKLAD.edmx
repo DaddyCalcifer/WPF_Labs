@@ -4,7 +4,19 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище SKLAD_WPFModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище SKLAD_WPFModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="ID_Account" />
+          </Key>
+          <Property Name="ID_Account" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TypeID" Type="int" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="100" />
+          <Property Name="ID_Owner" Type="int" />
+        </EntityType>
         <EntityType Name="Item">
           <Key>
             <PropertyRef Name="ID_Item" />
@@ -87,6 +99,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище SKLAD_WPFModelContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Owner" EntityType="Self.Owner" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Specific" EntityType="Self.Specific" Schema="dbo" store:Type="Tables" />
@@ -104,11 +117,22 @@
             <End Role="Item" EntitySet="Item" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SKLAD_WPFModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="ID_Account" />
+          </Key>
+          <Property Name="ID_Account" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TypeID" Type="Int32" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ID_Owner" Type="Int32" />
+        </EntityType>
         <EntityType Name="Item">
           <Key>
             <PropertyRef Name="ID_Item" />
@@ -134,7 +158,7 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Items" Relationship="Self.FK__Item__ID_Owner__31EC6D26" FromRole="Owner" ToRole="Item" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__Item__ID_Owner__31EC6D26" FromRole="Owner" ToRole="Item" />
         </EntityType>
         <EntityType Name="Specific">
           <Key>
@@ -142,7 +166,7 @@
           </Key>
           <Property Name="ID_Specific" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Items" Relationship="Self.FK__Item__ID_Specifi__30F848ED" FromRole="Specific" ToRole="Item" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__Item__ID_Specifi__30F848ED" FromRole="Specific" ToRole="Item" />
         </EntityType>
         <EntityType Name="Structure">
           <Key>
@@ -152,7 +176,7 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Adress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Square" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Items" Relationship="Self.FK__Item__ID_Structu__300424B4" FromRole="Structure" ToRole="Item" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__Item__ID_Structu__300424B4" FromRole="Structure" ToRole="Item" />
         </EntityType>
         <Association Name="FK__Item__ID_Owner__31EC6D26">
           <End Role="Owner" Type="Self.Owner" Multiplicity="1">
@@ -196,22 +220,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="SKLAD_WPFEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Items" EntityType="Self.Item" />
-          <EntitySet Name="Owners" EntityType="Self.Owner" />
-          <EntitySet Name="Specifics" EntityType="Self.Specific" />
-          <EntitySet Name="Structures" EntityType="Self.Structure" />
+        <EntityContainer Name="SKLAD_WPF" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Account" EntityType="Self.Account" />
+          <EntitySet Name="Item" EntityType="Self.Item" />
+          <EntitySet Name="Owner" EntityType="Self.Owner" />
+          <EntitySet Name="Specific" EntityType="Self.Specific" />
+          <EntitySet Name="Structure" EntityType="Self.Structure" />
           <AssociationSet Name="FK__Item__ID_Owner__31EC6D26" Association="Self.FK__Item__ID_Owner__31EC6D26">
-            <End Role="Owner" EntitySet="Owners" />
-            <End Role="Item" EntitySet="Items" />
+            <End Role="Owner" EntitySet="Owner" />
+            <End Role="Item" EntitySet="Item" />
           </AssociationSet>
           <AssociationSet Name="FK__Item__ID_Specifi__30F848ED" Association="Self.FK__Item__ID_Specifi__30F848ED">
-            <End Role="Specific" EntitySet="Specifics" />
-            <End Role="Item" EntitySet="Items" />
+            <End Role="Specific" EntitySet="Specific" />
+            <End Role="Item" EntitySet="Item" />
           </AssociationSet>
           <AssociationSet Name="FK__Item__ID_Structu__300424B4" Association="Self.FK__Item__ID_Structu__300424B4">
-            <End Role="Structure" EntitySet="Structures" />
-            <End Role="Item" EntitySet="Items" />
+            <End Role="Structure" EntitySet="Structure" />
+            <End Role="Item" EntitySet="Item" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -219,8 +244,21 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище SKLAD_WPFModelContainer" CdmEntityContainer="SKLAD_WPFEntities">
-          <EntitySetMapping Name="Items">
+        <EntityContainerMapping StorageEntityContainer="Хранилище SKLAD_WPFModelContainer" CdmEntityContainer="SKLAD_WPF">
+          <EntitySetMapping Name="Account">
+            <EntityTypeMapping TypeName="SKLAD_WPFModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="ID_Owner" ColumnName="ID_Owner" />
+                <ScalarProperty Name="ID_Account" ColumnName="ID_Account" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Item">
             <EntityTypeMapping TypeName="SKLAD_WPFModel.Item">
               <MappingFragment StoreEntitySet="Item">
                 <ScalarProperty Name="ID_Item" ColumnName="ID_Item" />
@@ -235,7 +273,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Owners">
+          <EntitySetMapping Name="Owner">
             <EntityTypeMapping TypeName="SKLAD_WPFModel.Owner">
               <MappingFragment StoreEntitySet="Owner">
                 <ScalarProperty Name="ID_Owner" ColumnName="ID_Owner" />
@@ -245,7 +283,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Specifics">
+          <EntitySetMapping Name="Specific">
             <EntityTypeMapping TypeName="SKLAD_WPFModel.Specific">
               <MappingFragment StoreEntitySet="Specific">
                 <ScalarProperty Name="ID_Specific" ColumnName="ID_Specific" />
@@ -253,7 +291,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Structures">
+          <EntitySetMapping Name="Structure">
             <EntityTypeMapping TypeName="SKLAD_WPFModel.Structure">
               <MappingFragment StoreEntitySet="Structure">
                 <ScalarProperty Name="ID_Structure" ColumnName="ID_Structure" />
@@ -277,7 +315,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />

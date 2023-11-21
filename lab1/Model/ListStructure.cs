@@ -8,13 +8,13 @@ using System.Data.Entity;
 
 namespace lab1.Model
 {
-    public class ListSpecific : ObservableCollection<Specific>
+    public class ListStructure : ObservableCollection<Structure>
     {
-        public ListSpecific()
+        public ListStructure()
         {
-            DbSet<Specific> specifics = PageMain.DataEntitiesSKLAD.Specific;
-            var querySpec = from spec in specifics select spec;
-            foreach (Specific specc in querySpec)
+            DbSet<Structure> structs = PageMain.DataEntitiesSKLAD.Structure;
+            var querySpec = from spec in structs select spec;
+            foreach (Structure specc in querySpec)
             {
                 this.Add(specc);
             }

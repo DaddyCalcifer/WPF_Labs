@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace lab1
+namespace lab1.Model
 {
     using System;
     using System.Collections.Generic;

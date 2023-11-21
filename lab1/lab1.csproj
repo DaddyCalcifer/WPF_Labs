@@ -40,6 +40,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BCrypt.Net, Version=0.1.4141.31969, Culture=neutral, PublicKeyToken=f3bc8f8c31beeb49, processorArchitecture=MSIL">
+      <HintPath>..\packages\BCrypt.Net.0.1.0\lib\net35\BCrypt.Net.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -183,39 +186,68 @@
     <Compile Include="AddOrEdit.xaml.cs">
       <DependentUpon>AddOrEdit.xaml</DependentUpon>
     </Compile>
+<<<<<<< Updated upstream
     <Compile Include="Item.cs">
+=======
+    <Compile Include="FIndWindow.xaml.cs">
+      <DependentUpon>FIndWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\AuthLogic.cs" />
+    <Compile Include="LoginForm.xaml.cs">
+      <DependentUpon>LoginForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Account.cs">
+      <DependentUpon>SKLAD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Item.cs">
+>>>>>>> Stashed changes
       <DependentUpon>SKLAD.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\ListSpecific.cs" />
-    <Compile Include="Owner.cs">
+    <Compile Include="Model\ListStructure.cs" />
+    <Compile Include="Model\Owner.cs">
       <DependentUpon>SKLAD.tt</DependentUpon>
     </Compile>
-    <Compile Include="SKLAD.Context.cs">
+    <Compile Include="Model\SKLAD.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SKLAD.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="SKLAD.cs">
+    <Compile Include="Model\SKLAD.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SKLAD.tt</DependentUpon>
     </Compile>
-    <Compile Include="SKLAD.Designer.cs">
+    <Compile Include="Model\SKLAD.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SKLAD.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Specific.cs">
+    <Compile Include="Model\Specific.cs">
       <DependentUpon>SKLAD.tt</DependentUpon>
     </Compile>
-    <Compile Include="Structure.cs">
+    <Compile Include="Model\Structure.cs">
       <DependentUpon>SKLAD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PageSklad.xaml.cs">
+      <DependentUpon>PageSklad.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValidationRules\EmailRule.cs" />
     <Page Include="AddOrEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+<<<<<<< Updated upstream
+=======
+    <Page Include="FIndWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+>>>>>>> Stashed changes
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -231,6 +263,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PageSklad.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="PageMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -257,17 +293,17 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EntityDeploy Include="Model\SKLAD.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SKLAD.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Model\SKLAD.edmx.diagram">
+      <DependentUpon>SKLAD.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <EntityDeploy Include="SKLAD.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>SKLAD.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="SKLAD.edmx.diagram">
-      <DependentUpon>SKLAD.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -287,12 +323,14 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SKLAD.Context.tt">
+    <Resource Include="icons\User.png" />
+    <Resource Include="icons\logout.png" />
+    <Content Include="Model\SKLAD.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SKLAD.edmx</DependentUpon>
       <LastGenOutput>SKLAD.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="SKLAD.tt">
+    <Content Include="Model\SKLAD.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SKLAD.edmx</DependentUpon>
       <LastGenOutput>SKLAD.cs</LastGenOutput>

@@ -21,39 +21,43 @@ namespace lab1
     /// </summary>
     public partial class MainWindow : Window
     {
-        //public static SKLAD_WPFEntities DataEntitiesSKLAD { get; set; }
-        //public static ObservableCollection<Owner> ListOwner { get; set; }
-        public MainWindow()
+        int id = -1;
+        bool admin = false;
+        public bool logout = false;
+        public MainWindow(int id, bool admin=false)
         {
             InitializeComponent();
-            //DataEntitiesSKLAD = new SKLAD_WPFEntities();
-            //ListOwner = new ObservableCollection<Owner>();
+            this.id = id;
+            this.admin = admin;
         }
         private void frame1_Loaded(object sender, RoutedEventArgs e)
         {
-            var page = new PageMain();
-            this.Content = page;
-           
-            //var queryOwners = (from owner in DataEntitiesSKLAD.Owners
-            //                  orderby owner.Name
-            //                  select owner).ToList();
-            //foreach (Owner own in queryOwners)
-            //{
-            //    ListOwner.Add(own);
-               
-            //}
-            //page.DataGridItem.Items.Clear();
-            //page.DataGridItem.ItemsSource = ListOwner;
-            ////page.DataGridItem.Items.Add(ListOwner[0]);
-            //foreach(var item in ListOwner)
-            //{
-            //    Console.WriteLine(item.Name + " " + item.Email);
-            //}
+            if (admin)
+            {
+                var page = new PageMain();
+                this.Content = page;
+            }
+            else
+            {
+                var ipage = new PageSklad(id, this);
+                this.Content = ipage;
+            }
         }
 
         private void frame1_Navigated(object sender, NavigationEventArgs e)
         {
 
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if (logout == false)
+                Application.Current.Shutdown();
         }
     }
 }

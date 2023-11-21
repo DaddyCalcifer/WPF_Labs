@@ -21,50 +21,57 @@ namespace lab1
     /// <summary>
     /// Логика взаимодействия для PageMain.xaml
     /// </summary>
-    public partial class PageMain : Page
+    public partial class PageSklad : Page
     {
+        public int owner_id = -1, acc_id = -1;
+        MainWindow mainWindow;
         public static SKLAD_WPF DataEntitiesSKLAD { get; set; } = new SKLAD_WPF();
-        public ObservableCollection<Owner> ListOwner { get; set; }
-        public PageMain()
+        public ObservableCollection<Item> ListItem { get; set; }
+        public PageSklad(int acc_id, MainWindow mainWindow)
         {
             InitializeComponent();
             DataEntitiesSKLAD = new SKLAD_WPF();
-            ListOwner = new ObservableCollection<Owner>();
+            ListItem = new ObservableCollection<Item>();
+            this.acc_id = acc_id;
+
+            var queryAccs = (from item in DataEntitiesSKLAD.Account
+                               where item.ID_Account == acc_id
+                               select item).ToList();
+            owner_id = (int)queryAccs[0].ID_Owner;
+
+            Console.WriteLine(owner_id);
+            this.mainWindow = mainWindow;
         }
         public bool isDirty = true;
+        public static bool canSave = true;
 
-        private void GetOwners()
+        public void GetItems()
         {
-<<<<<<< Updated upstream
-            var queryOwners = (from owner in DataEntitiesSKLAD.Owners
-=======
-            ListOwner.Clear();
-            var queryOwners = (from owner in DataEntitiesSKLAD.Owner
->>>>>>> Stashed changes
-                               orderby owner.Name
-                               select owner).ToList();
-            foreach (Owner own in queryOwners)
+            ListItem.Clear();
+            var queryOwners = (from item in DataEntitiesSKLAD.Item
+                               where item.ID_Owner == owner_id
+                               orderby item.ID_Item
+                               select item).ToList();
+            foreach (Item own in queryOwners)
             {
-                ListOwner.Add(own);
+                ListItem.Add(own);
 
             }
-            DataGridItem.Items.Clear();
-            DataGridItem.ItemsSource = ListOwner;
-            foreach (var item in ListOwner)
+            DataGridItem.ItemsSource = ListItem;
+            foreach (var item in ListItem)
             {
-                Console.WriteLine(item.Name + " " + item.Email);
+                Console.WriteLine(item.Name);
             }
         }
         private void RewriteOwner()
         {
             DataEntitiesSKLAD = new SKLAD_WPF();
-            ListOwner.Clear();
-            GetOwners();
+            ListItem.Clear();
+            GetItems();
         }
 
         private void UndoCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            //MessageBox.Show("Отмена");
             RewriteOwner();
             DataGridItem.IsReadOnly = true;
             isDirty = true;
@@ -80,13 +87,13 @@ namespace lab1
             MessageBox.Show("Сохранено");
             DataEntitiesSKLAD.SaveChanges();
 
-            isDirty = true;
+            canSave = true;
             DataGridItem.IsReadOnly = true;
         }
 
         private void SaveCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = isDirty;
+            e.CanExecute = canSave;
 
         }
         private void EditCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -101,16 +108,12 @@ namespace lab1
             e.CanExecute = isDirty;
 
         }
+        public FIndWindow fw;
         private void FindCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-<<<<<<< Updated upstream
-            MessageBox.Show("Поиск");
-            isDirty = true;
-        }
-=======
             if (fw == null)
             {
-                fw = new FIndWindow(this);
+                //fw = new FIndWindow(this);
                 fw.Show();
             }
             else
@@ -122,19 +125,17 @@ namespace lab1
         public void FindByName(string name, string phone, string email)
         {
             DataEntitiesSKLAD = new SKLAD_WPF();
-            ListOwner.Clear();
-            var queryOwner = (from owner in DataEntitiesSKLAD.Owner
+            ListItem.Clear();
+            var queryOwner = (from owner in DataEntitiesSKLAD.Item
                               where owner.Name.Contains(name)
-                              where owner.Phone.Contains(phone)
-                              where owner.Email.Contains(email)
                                 select owner).ToList();
-            foreach (Owner ow in queryOwner)
+            foreach (Item ow in queryOwner)
             {
-                ListOwner.Add(ow);
+                ListItem.Add(ow);
             }
-            if (ListOwner.Count > 0)
+            if (ListItem.Count > 0)
             {
-                DataGridItem.ItemsSource = ListOwner;
+                DataGridItem.ItemsSource = ListItem;
             }
             else
             {
@@ -143,10 +144,9 @@ namespace lab1
                     "Внимание!",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
-                GetOwners();
+                GetItems();
             }
         }
->>>>>>> Stashed changes
 
         private void FindCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -155,19 +155,24 @@ namespace lab1
         }
         private void AddCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            //MessageBox.Show("Создание");
-            Owner own = new Owner();
-            own.Phone = "не задано";
-            own.Email = "не задано";
-            own.Name = "не задано";
-            AddOwner(own);
+            MessageBox.Show("Создание");
+            Item ite = new Item();
+            ite.Name = "не задано";
+            ite.ID_Specific = 0;
+            ite.Description = "не задано";
+            ite.SizeH = 0;
+            ite.SizeW = 0;
+            ite.Mass = 0;
+            ite.ID_Structure = 0;
+            ite.ID_Owner = owner_id;
+            AddItem(ite);
         }
-        public void AddOwner(Owner own)
+        public void AddItem(Item own)
         {
             try
             {
-                DataEntitiesSKLAD.Owner.Add(own);
-                ListOwner.Add(own);
+                DataEntitiesSKLAD.Item.Add(own);
+                ListItem.Add(own);
                 isDirty = true;
             }
             catch (Exception ex)
@@ -185,18 +190,18 @@ namespace lab1
         private void DeleteCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             //MessageBox.Show("Удаление");
-            Owner emp = DataGridItem.SelectedItem as Owner;
+            Item emp = DataGridItem.SelectedItem as Item;
             if (emp != null)
             {
                 MessageBoxResult result = MessageBox.Show("Удалить данные ",
                 "Предупреждение", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
-                    DataEntitiesSKLAD.Owner.Remove(emp);
+                    DataEntitiesSKLAD.Item.Remove(emp);
                     DataGridItem.SelectedIndex =
                     DataGridItem.SelectedIndex == 0 ? 1 : DataGridItem.SelectedIndex - 1;
-                    ListOwner.Remove(emp);
-                    //DataEntitiesSKLAD.SaveChanges();
+                    ListItem.Remove(emp);
+                    DataEntitiesSKLAD.SaveChanges();
                     isDirty = true;
                 }
             }
@@ -212,9 +217,15 @@ namespace lab1
 
         }
 
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            mainWindow.logout = true;
+            mainWindow.Close();
+        }
+
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            GetOwners();
+            GetItems();
             DataGridItem.SelectedIndex = 0;
         }
     }

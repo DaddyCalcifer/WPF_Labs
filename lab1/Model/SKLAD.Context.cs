@@ -7,15 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace lab1
+namespace lab1.Model
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class SKLAD_WPFEntities : DbContext
+    public partial class SKLAD_WPF : DbContext
     {
-        public SKLAD_WPFEntities()
+        public SKLAD_WPF()
             : base("name=SKLAD_WPF")
         {
         }
@@ -25,9 +25,10 @@ namespace lab1
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Item> Items { get; set; }
-        public virtual DbSet<Owner> Owners { get; set; }
-        public virtual DbSet<Specific> Specifics { get; set; }
-        public virtual DbSet<Structure> Structures { get; set; }
+        public virtual DbSet<Account> Account { get; set; }
+        public virtual DbSet<Item> Item { get; set; }
+        public virtual DbSet<Owner> Owner { get; set; }
+        public virtual DbSet<Specific> Specific { get; set; }
+        public virtual DbSet<Structure> Structure { get; set; }
     }
 }
